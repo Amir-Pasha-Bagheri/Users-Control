@@ -1,6 +1,6 @@
 import Homepage from '../pages/Homepage/homepage'
-import Login from '../pages/Log in/Login'
-import Signin from '../pages/Sign In/Signin'
+import Login from '../pages/LogIn/Login'
+import Signin from '../pages/SignIn/Signin'
 
 const homepage = () =>{
     return <Homepage/>

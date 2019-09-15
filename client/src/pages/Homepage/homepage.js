@@ -11,10 +11,6 @@ export default class Homepage extends Component {
         .then(res=>this.setState({data:res.data}))
     }
 
-    componentWillUnmount(){
-        
-    }
-
     render(){
         return(
             <React.Fragment>
