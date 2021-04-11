@@ -1,11 +1,13 @@
 import React from 'react';
-import Homepage from './pages/homeoage'
+import { Router } from 'react-router';
+import Routes from './Routes/route'
+import history from './history'
 
 function App() {
   return (
-    <React.Fragment>
-        <Homepage/>
-    </React.Fragment>
+      <Router history={history}>
+        <Routes/>
+      </Router>
   );
 }
 
