@@ -11,9 +11,14 @@ export default class Homepage extends Component {
         .then(res=>this.setState({data:res.data}))
     }
 
+    componentWillUnmount(){
+        
+    }
+
     render(){
         return(
             <React.Fragment>
+                <h3>{this.state.data}</h3>
                 <Link to="/Signin"><button className='button'>Sign In</button></Link>
                 <Link to="/Login"><button className='button'>Log In</button></Link>
             </React.Fragment>
