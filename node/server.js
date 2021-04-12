@@ -38,4 +38,8 @@ app.get('/Login',(req,res)=>{
     res.send('Log In Page')
 })
 
+app.get('/Profile',(req,res)=>{
+    res.send(currentUser)
+})
+
 app.listen(8080,()=>{console.log('Running On Port 8000...')})
