@@ -8,6 +8,7 @@ const Routes = () =>{
                 <Route exact path="/" component={page.homepage}/>
                 <Route path="/Signin" component={page.signin}/>
                 <Route path="/Login" component={page.login}/>
+                <Route path="/Profile" component={page.account}/>
                 <Route component={page.notFound}/>
             </Switch>
         </div>
