@@ -27,15 +27,22 @@ app.post('/Signin',(req,res)=>{
     }
     else{
         const newUser = {username:req.body.username,password:req.body.password}
-        currentUser = newUser
         users.push(newUser)
         res.send('ok')
-        console.log(users);
+        currentUser.username = req.body.username
+        currentUser.password = req.body.password
     }
 })
 
 app.get('/Login',(req,res)=>{
-    res.send('Log In Page')
+    res.send(users)
+})
+
+app.post('/Login',(req,res)=>{
+
+    currentUser.username = req.body.username
+    currentUser.password = req.body.password
+    res.send(currentUser)
 })
 
 app.get('/Profile',(req,res)=>{
@@ -44,9 +51,10 @@ app.get('/Profile',(req,res)=>{
 
 app.post('/Profile',(req,res)=>{
     if(req.body.changePassword==true){
-        const newPassword = req.body.password
-        currentUser.password = newPassword
-        res.send(currentUser.password)
+        const findUser = users.find(user=>user.username===req.body.username)
+        findUser.password = req.body.password
+        currentUser.password = req.body.password
+        res.send(findUser.password)
     }
     else{
         currentUser.username = null
