@@ -4,12 +4,22 @@ import './homepage.css'
 import {Link} from 'react-router-dom'
 
 export default class Homepage extends Component {
-    
+    _isMounted = false
     state = {currentUser:null}
 
     componentDidMount(){
+        this._isMounted = true
         axios.get('http://localhost:8080/')
         .then(res=>this.setState({currentUser:res.data.username}))
+    }
+
+    componentDidUpdate(){
+        axios.get('http://localhost:8080/')
+        .then(res=>this.setState({currentUser:res.data.username}))
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false
     }
 
     render(){

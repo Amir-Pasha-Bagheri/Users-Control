@@ -126,7 +126,7 @@ export default class Account extends Component{
                     messageSuccess.style.display = 'block'
                     messageDanger.style.display = 'none'
         
-                    axios.post('http://localhost:8080/Profile/',{changePassword:true,password:pass1})
+                    axios.post('http://localhost:8080/Profile/',{changePassword:true,password:pass1,username:this.state.username})
                     .then((res)=>this.setState({password:res.data}))
                 }
                     
