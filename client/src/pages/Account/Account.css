@@ -1,0 +1,54 @@
+.UsePass{
+    background-color:"white";
+    border:"none";
+    border-radius: 10px;
+    background-color: rgb(216, 222, 135);
+    color:"black"; 
+    padding: 3px 3px;
+}
+.ChangePass{
+    border: none;
+    border-radius: 3px;
+}
+.LogOut{
+    border: none;
+    border-radius: 3px;
+    background-color: crimson;
+}
+.ChanePassContainer{
+    display: none;
+}
+.DangerMessage{
+    text-align: center;
+    margin: 40px 0px 40px 0px;
+    padding: 20px 0px;
+    border-radius: 7px;
+    background-color: rgb(167, 201, 167);
+}
+.Container{
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    background-color: rgb(216, 216, 216);
+    margin-top: 60px;
+    padding: 30px 30px;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.3s;
+    box-shadow: 4px 4px 4px black;
+}
+.Container hr{
+    margin-left: -30px;
+    width: 125%;
+    border: 1px white solid;
+}
+.Container:hover{
+    box-shadow: 4px 4px 4px rgb(58, 58, 58);
+}
+.DangerMessage{
+    text-align: center;
+    margin: 40px 0px 40px 0px;
+    padding: 20px 0px;
+    border-radius: 7px;
+    background-color: rgb(167, 201, 167);
+}
