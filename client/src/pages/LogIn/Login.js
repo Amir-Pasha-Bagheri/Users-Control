@@ -1,14 +1,17 @@
 import axios from "axios"
 import React, { Component } from "react"
+import history from '../../history'
 
 export default class Login extends Component{
     _isMounted = false
-    state={data:''}
+    state={
+        users:[]
+    }
 
     componentDidMount(){
         this._isMounted = true
-        axios.get('http://localhost:8080/Login')
-        .then(res=>this.setState({data:res.data}))
+        axios.get('http://localhost:8080/Login/')
+        .then((res)=>this.setState({users:res.data}))
     }
 
     componentWillUnmount(){
@@ -88,10 +91,37 @@ export default class Login extends Component{
             }
         }
 
+        const submit = (e) =>{
+            e.preventDefault()
+
+            //Find The User With Given Username
+            const messageDanger = document.getElementById('DangerMessage')
+            const User = document.getElementById('username').value
+            const Pass = document.getElementById('password').value
+            const findUser = this.state.users.find(user=>user.username===User)
+            if(findUser){
+                if(Pass!==findUser.password){
+                    messageDanger.style.display = 'block'
+                    messageDanger.innerHTML = 'Wrong Password !'
+                }
+                else{
+                    messageDanger.style.display = 'none'
+                    axios.post('http://localhost:8080/Login/',{username:User,password:Pass})
+                    history.push('/')
+                }
+            }
+            else{
+                messageDanger.style.display = 'block'
+                messageDanger.innerHTML = 'Username With Given Name Does Not Exist !'
+            }
+        }
+
         return(
             <React.Fragment>
-                {this.state.data}
-                <form className="SignInForm">
+
+                <h3 className="DangerMessage bg-danger" id="DangerMessage" style={{display:"none"}}>Error!</h3>
+
+                <form className="SignInForm" method='POST' onSubmit={submit}>
                     <hr/>
 
                     <label htmlFor="name">Username :</label>
@@ -111,7 +141,7 @@ export default class Login extends Component{
                         <p id="number" className="invalid">At least One Number.</p>
                         <p id="chars" className="invalid">At least 6 Characters Or More.</p><br/>
                     </div>
-                    <button className="SubmitAccount bg-success">Submit</button>
+                    <button className="SubmitAccount bg-success" type='submit'>Submit</button>
 
                 </form>
             </React.Fragment>
