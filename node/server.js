@@ -42,4 +42,17 @@ app.get('/Profile',(req,res)=>{
     res.send(currentUser)
 })
 
+app.post('/Profile',(req,res)=>{
+    if(req.body.changePassword==true){
+        const newPassword = req.body.password
+        currentUser.password = newPassword
+        res.send(currentUser.password)
+    }
+    else{
+        currentUser.username = null
+        currentUser.password = null
+        res.send(currentUser)
+    }
+})
+
 app.listen(8080,()=>{console.log('Running On Port 8000...')})
