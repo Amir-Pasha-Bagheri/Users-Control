@@ -96,7 +96,7 @@ export default class Signin extends Component{
 
         const submit = (e) =>{
             e.preventDefault()
-            axios.post('http://localhost:8080/Signin',{
+            axios.post('http://localhost:8080/Signup',{
                 username:document.getElementById('username').value,
                 password:document.getElementById('password').value
             })
