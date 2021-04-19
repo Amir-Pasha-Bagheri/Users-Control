@@ -1,17 +1,24 @@
 import axios from "axios"
 import React, { Component } from "react"
-import history from '../../history'
+//import history from '../../history'
 
 export default class Login extends Component{
     _isMounted = false
     state={
-        users:[]
+        users:[],
+        mesage:null
     }
 
     componentDidMount(){
         this._isMounted = true
         axios.get('http://localhost:8080/Login/')
         .then((res)=>this.setState({users:res.data}))
+    }
+
+    componentDidUpdate(){
+        const msg = document.getElementById('DangerMessage')
+        if(msg.innerHTML==='Error!') msg.style.display = 'none'
+        else msg.style.display = 'block'
     }
 
     componentWillUnmount(){
@@ -93,27 +100,12 @@ export default class Login extends Component{
 
         const submit = (e) =>{
             e.preventDefault()
-
-            //Find The User With Given Username
-            const messageDanger = document.getElementById('DangerMessage')
-            const User = document.getElementById('username').value
-            const Pass = document.getElementById('password').value
-            const findUser = this.state.users.find(user=>user.username===User)
-            if(findUser){
-                if(Pass!==findUser.password){
-                    messageDanger.style.display = 'block'
-                    messageDanger.innerHTML = 'Wrong Password !'
-                }
-                else{
-                    messageDanger.style.display = 'none'
-                    axios.post('http://localhost:8080/Login/',{username:User,password:Pass})
-                    history.push('/')
-                }
-            }
-            else{
-                messageDanger.style.display = 'block'
-                messageDanger.innerHTML = 'Username With Given Name Does Not Exist !'
-            }
+            axios.post('http://localhost:8080/Login',{
+                username:document.getElementById('username').value,
+                password:document.getElementById('password').value
+            })
+            .then(res=>console.log(res))
+            //.then(res=>this.setState({message:res.data}))
         }
 
         return(
@@ -124,10 +116,10 @@ export default class Login extends Component{
                 <form className="SignInForm" method='POST' onSubmit={submit}>
                     <hr/>
 
-                    <label htmlFor="name">Username :</label>
+                    <label htmlFor="username">Username :</label>
                     <input type="text" id="username" onKeyUp={enterUserName} className="form-control" pattern=".{8,}" name="username" title="Your Username Must Contain 8 Characters." placeholder="Your Userame Must Contain 6 Characters" required/>
                     
-                    <label htmlFor="name">Password :</label>
+                    <label htmlFor="password">Password :</label>
                         <div className="input-group mb-3">
                             <input type="password" id="password" onKeyUp={enterPassword} className="form-control" pattern="(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).{6,}" name="password" placeholder="At least one Lowercase, Uppercase and number" title="Your Password Must Contain at least 6 Characters one Lowercase, one Uppercase and Number." required/>
                             <div className="input-group-append input-group-text">
