@@ -5,31 +5,29 @@ import {Link} from 'react-router-dom'
 
 export default class Homepage extends Component {
     _isMounted = false
-    state = {currentUser:null}
+    state = {currentUser:''}
 
     componentDidMount(){
         this._isMounted = true
-        axios.get('http://localhost:8080/',{credentials: "same-origin" })
-        //.then(res=>this.setState({currentUser:res.data}))
-        .then(res=>console.log(res))
+        axios.get('http://localhost:8080/', {withCredentials: true})
+        .then(res=>this.setState({currentUser:res.data}))
+        //console.log(this.state.currentUser)
     }
-    
+
     componentDidUpdate(){
-        axios.get('http://localhost:8080/')
-        //.then(res=>this.setState({currentUser:res.data.username}))
-        .then(res=>console.log(res))
+        //console.log(this.state.currentUser)
     }
     
     componentWillUnmount(){
         this._isMounted = false
     }
-    //<Link to='/Profile'><button className='buttonAccount'>{this.state.currentUser}</button></Link>
-    //{this.state.currentUser!==null&&this.state.currentUser!==undefined?console.log(this.state.currentUser):console.log('no user')}
+    //
     render(){
         return(
             <React.Fragment>
                 <Link to="/Signup"><button className='button'>Sign Up</button></Link>
                 <Link to="/Login"><button className='button'>Log In</button></Link><br/>
+                {this.state.currentUser!==''?<Link to='/Profile'><button className='buttonAccount'>{this.state.currentUser}</button></Link>:false}
             </React.Fragment>
         )
     }
