@@ -9,7 +9,7 @@ const passport = require('passport')
 const session = require('express-session')
 const flash = require('express-flash')
 const bodyParser = require('body-parser')
-
+const cookieParser = require('cookie-parser')
 const app = express()
 
 const initializePassport = require('./passport-config')
@@ -21,7 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: "http://localhost:3000",credentials: true,}))
+app.use(cookieParser("secretcode"))
 app.use(flash())
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -32,13 +33,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 
-app.get('/', checkAuthenticated ,(req,res)=>{
+/**/app.get('/', checkAuthenticated ,(req,res)=>{
     res.send(req.user.username)
 })
 
-app.get('/Signup',(req,res)=>{
-    res.send('Sign Up Page')
-})
 
 app.post('/Signup',async (req,res)=>{
     const findUser = users.find(user=>user.username===req.body.username)
@@ -57,19 +55,10 @@ app.post('/Signup',async (req,res)=>{
     }
 })
 
-app.get('/Login',(req,res)=>{
-    res.send(users)
-})
-
-/*app.post('/Login',passport.authenticate('local',{
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash : true
-}))*/
 app.post('/Login',(req,res,next) =>{
     passport.authenticate('local',(err,user,info)=>{
         if(err) throw err
-        if(!user) res.send('No User With Given Username')
+        if(!user) res.send(info.message)
         else{
             req.logIn(user, (err) =>{
                 if (err) throw err
@@ -81,17 +70,17 @@ app.post('/Login',(req,res,next) =>{
 
 app.get('/Profile',(req,res)=>{
     res.send(req.user)
-    console.log(req.user.username);
 })
 
 app.post('/Profile',(req,res)=>{
     res.send('Profile')
 })
 
-//If User Exist
+
+//If User Loged In
 function checkAuthenticated(req,res,next) {
     if(req.isAuthenticated()) return next()
-    else res.send('no user')
+    else res.send(undefined)
 } 
 
 app.listen(8080,()=>{console.log('Running On Port 8080...')})
