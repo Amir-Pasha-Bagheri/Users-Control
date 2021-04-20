@@ -1,24 +1,23 @@
 import axios from "axios"
 import React, { Component } from "react"
-//import history from '../../history'
+import history from '../../history'
 
 export default class Login extends Component{
     _isMounted = false
     state={
-        users:[],
         mesage:null
     }
 
     componentDidMount(){
         this._isMounted = true
-        axios.get('http://localhost:8080/Login/')
-        .then((res)=>this.setState({users:res.data}))
     }
 
     componentDidUpdate(){
         const msg = document.getElementById('DangerMessage')
         if(msg.innerHTML==='Error!') msg.style.display = 'none'
         else msg.style.display = 'block'
+
+        if(this.state.mesage!=='No User With Given Username'&&this.state.mesage!=='Password Incorrect') history.push('/')
     }
 
     componentWillUnmount(){
@@ -103,15 +102,16 @@ export default class Login extends Component{
             axios.post('http://localhost:8080/Login',{
                 username:document.getElementById('username').value,
                 password:document.getElementById('password').value
+            },{
+                withCredentials: true
             })
-            .then(res=>console.log(res))
-            //.then(res=>this.setState({message:res.data}))
+            .then(res=>this.setState({mesage:res.data}))
         }
 
         return(
             <React.Fragment>
 
-                <h3 className="DangerMessage bg-danger" id="DangerMessage" style={{display:"none"}}>Error!</h3>
+                <h3 className="DangerMessage bg-danger" id="DangerMessage" style={{display:"none"}}>{this.state.mesage}</h3>
 
                 <form className="SignInForm" method='POST' onSubmit={submit}>
                     <hr/>
