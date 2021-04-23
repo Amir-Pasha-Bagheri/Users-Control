@@ -111,6 +111,8 @@ export default class Login extends Component{
         return(
             <React.Fragment>
 
+                <h2 style={{textAlign:"center",marginTop:"30px"}}>Log In Page</h2>
+
                 <h3 className="DangerMessage bg-danger" id="DangerMessage" style={{display:"none"}}>{this.state.mesage}</h3>
 
                 <form className="SignInForm" method='POST' onSubmit={submit}>

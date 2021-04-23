@@ -18,7 +18,7 @@ export default class Signin extends Component{
     }
 
     componentDidUpdate(){
-        if(this.state.Message==='ok') history.push('/')
+        if(this.state.Message==='ok') history.push('/Login')
     }
 
     render(){
@@ -104,6 +104,7 @@ export default class Signin extends Component{
         }
         return(
             <React.Fragment>
+                <h2 style={{textAlign:"center",marginTop:"30px"}}>Sign Up Page</h2>
                 <h3 id="Message" style={{color:'red'}}>{this.state.Message==='ok'?false:this.state.Message}</h3>
                 <form className="SignInForm" method="POST" onSubmit={submit}>
                     <hr/>

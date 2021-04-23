@@ -7,21 +7,17 @@ export default class Homepage extends Component {
     _isMounted = false
     state = {currentUser:''}
 
-    componentDidMount(){
+    componentWillMount(){
         this._isMounted = true
         axios.get('http://localhost:8080/', {withCredentials: true})
         .then(res=>this.setState({currentUser:res.data}))
-        //console.log(this.state.currentUser)
-    }
-
-    componentDidUpdate(){
-        //console.log(this.state.currentUser)
+        //.then(res=>console.log(res.data))
     }
     
     componentWillUnmount(){
         this._isMounted = false
     }
-    //
+    
     render(){
         return(
             <React.Fragment>
