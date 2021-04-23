@@ -10,7 +10,7 @@ export default class Account extends Component{
     
     componentDidMount(){
         axios.get('http://localhost:8080/Profile/',{withCredentials: true})
-        .then(res=>console.log(res.data))
+        .then(res=>this.setState({username:res.data.username,password:res.data.password}))
     }
 
     componentDidUpdate(){
@@ -117,19 +117,19 @@ export default class Account extends Component{
                 messageDanger.innerHTML = 'Your Entered Passwords Are Not Same !'
             }
             else{
-                if(pass1===this.state.password){
-                    messageSuccess.style.display = 'none'
-                    messageDanger.style.display = 'block'
-                    messageDanger.innerHTML = 'Your New Password Cannot Be Your Old Password !'
-                }
-                else{
-                    messageSuccess.style.display = 'block'
-                    messageDanger.style.display = 'none'
-        
-                    axios.post('http://localhost:8080/Profile/',{changePassword:true,password:pass1,username:this.state.username})
-                    .then((res)=>this.setState({password:res.data}))
-                }
-                    
+                axios.post('http://localhost:8080/Profile/',{password:pass1,username:this.state.username})
+                .then(res=>{
+                    if(res.data.id==='failed'){
+                        messageSuccess.style.display = 'none'
+                        messageDanger.style.display = 'block'
+                        messageDanger.innerHTML = res.data.text
+                    }
+                    else{
+                        messageSuccess.style.display = 'block'
+                        messageDanger.style.display = 'none'
+                        messageSuccess.innerHTML = res.data.text
+                    }
+                })     
             }
         }
 
@@ -141,15 +141,14 @@ export default class Account extends Component{
 
         return(
             <React.Fragment>
-                <h3 className="SuccessMessage" id="SuccessMessage" style={{display:"none"}}>Password Updated !!!</h3>
+                <h3 className="SuccessMessage bg-success" id="SuccessMessage" style={{display:'none'}}>Password Updated !!!</h3>
 
-                <h3 className="DangerMessage bg-danger" id="DangerMessage" style={{display:"none"}}>Error!</h3>
+                <h3 className="DangerMessage bg-danger" id="DangerMessage" style={{display:'none'}}>Error!</h3>
 
                 <div className="Container">
                     <hr/>
 
-                    <p>Username : <span className="UsePass">{this.state.username}</span><br/></p>
-                    <p>password : <span className="UsePass" id="CurrentPassContainer">{this.state.password}</span></p><br/>
+                    <p>Username : <span className="UsePass">{this.state.username}</span><br/></p><br/>
                     <button className="ChangePass" onClick={ChangePass}>Change Password</button><br/><br/>
                     
                     <form className="ChanePassContainer" id="ChanePassContainer" method='POST' onSubmit={checkNewPass}>

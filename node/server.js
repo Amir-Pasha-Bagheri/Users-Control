@@ -74,8 +74,22 @@ app.get('/Profile',(req,res)=>{
     res.send(req.user)
 })
 
-app.post('/Profile',(req,res)=>{
-    res.send(req.user)
+app.post('/Profile',async (req,res)=>{
+    const messages = [
+        {id:'failed',text:'Your New Password Cannot Be Your Old Password !'},
+        {id:'success',text:'Password Updated !'}
+    ]
+    const findUser = users.find(user=>user.username===req.body.username)
+    if(findUser){
+        if(await bcrypt.compare(req.body.password,findUser.password)) {
+            res.send(messages[0])
+        }
+        else{
+            const newPass = await bcrypt.hash(req.body.password,10)
+            findUser.password = newPass
+            res.send(messages[1])
+        }
+    }
 })
 
 app.delete('/Profile',(req,res)=>{
