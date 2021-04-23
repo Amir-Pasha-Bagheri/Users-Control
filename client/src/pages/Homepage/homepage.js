@@ -7,11 +7,10 @@ export default class Homepage extends Component {
     _isMounted = false
     state = {currentUser:''}
 
-    componentWillMount(){
+    componentDidMount(){
         this._isMounted = true
         axios.get('http://localhost:8080/', {withCredentials: true})
         .then(res=>this.setState({currentUser:res.data}))
-        //.then(res=>console.log(res.data))
     }
     
     componentWillUnmount(){
