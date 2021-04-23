@@ -6,17 +6,11 @@ import './Account.css'
 
 export default class Account extends Component{
 
-    state={username:null,password:null}
+    state={username:''}
     
     componentDidMount(){
         axios.get('http://localhost:8080/Profile/',{withCredentials: true})
-        .then(res=>this.setState({username:res.data.username,password:res.data.password}))
-    }
-
-    componentDidUpdate(){
-        if(this.state.username===null){
-            history.goBack()
-        }
+        .then(res=>res.data===''?history.goBack():this.setState({username:res.data}))
     }
     
     render(){

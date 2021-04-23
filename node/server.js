@@ -70,8 +70,8 @@ app.post('/Login',(req,res,next) =>{
     })(req,res,next)
 })
 
-app.get('/Profile',(req,res)=>{
-    res.send(req.user)
+app.get('/Profile',checkAuthenticated,(req,res)=>{
+    res.send(req.user.username)
 })
 
 app.post('/Profile',async (req,res)=>{
@@ -93,8 +93,8 @@ app.post('/Profile',async (req,res)=>{
 })
 
 app.delete('/Profile',(req,res)=>{
-    req.logOut() 
-    res.send(req.user)
+    req.logOut()
+    res.send('')
 })
 
 //If User Loged In
