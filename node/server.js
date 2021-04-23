@@ -10,6 +10,8 @@ const session = require('express-session')
 const flash = require('express-flash')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const methodOverride = require('method-override')
+
 const app = express()
 
 const initializePassport = require('./passport-config')
@@ -31,9 +33,9 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(methodOverride('_method'))
 
-
-/**/app.get('/', checkAuthenticated ,(req,res)=>{
+app.get('/', checkAuthenticated ,(req,res)=>{
     res.send(req.user.username)
 })
 
@@ -73,14 +75,18 @@ app.get('/Profile',(req,res)=>{
 })
 
 app.post('/Profile',(req,res)=>{
-    res.send('Profile')
+    res.send(req.user)
 })
 
+app.delete('/Profile',(req,res)=>{
+    req.logOut() 
+    res.send(req.user)
+})
 
 //If User Loged In
 function checkAuthenticated(req,res,next) {
     if(req.isAuthenticated()) return next()
-    else res.send(undefined)
+    else res.send('')
 } 
 
 app.listen(8080,()=>{console.log('Running On Port 8080...')})

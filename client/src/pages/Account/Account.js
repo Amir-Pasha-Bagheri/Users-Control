@@ -9,8 +9,8 @@ export default class Account extends Component{
     state={username:null,password:null}
     
     componentDidMount(){
-        axios.get('http://localhost:8080/Profile/')
-        .then(res=>this.setState({username:res.data.username,password:res.data.password}))
+        axios.get('http://localhost:8080/Profile/',{withCredentials: true})
+        .then(res=>console.log(res.data))
     }
 
     componentDidUpdate(){
@@ -133,10 +133,10 @@ export default class Account extends Component{
             }
         }
 
-        //Log Out Dispatch
+        //Log Out
         const LogOut = () =>{
-            axios.post('http://localhost:8080/Profile/',{changePassword:false})
-                .then((res)=>this.setState({username:res.data.username,password:res.data.password}))
+            axios.delete('http://localhost:8080/Profile/',{withCredentials: true})
+                .then(res=> res.data===''?history.push('/'):false)
         }
 
         return(
@@ -175,8 +175,7 @@ export default class Account extends Component{
 
                         <button className="ChangePass" type="submit">Done</button><br/><br/>
                     </form>
-
-                    <button className="LogOut" onClick={LogOut}>Log Out</button><br/><br/>
+                        <button className="LogOut" onClick={LogOut}>Log Out</button><br/><br/>
                 </div>
                 <br/><br/>
             </React.Fragment>
