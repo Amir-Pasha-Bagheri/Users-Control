@@ -23,7 +23,12 @@
     margin: 40px 0px 40px 0px;
     padding: 20px 0px;
     border-radius: 7px;
-    background-color: rgb(167, 201, 167);
+}
+.SuccessMessage{
+    text-align: center;
+    margin: 40px 0px 40px 0px;
+    padding: 20px 0px;
+    border-radius: 7px;
 }
 .Container{
     width: 50%;
@@ -44,11 +49,4 @@
 }
 .Container:hover{
     box-shadow: 4px 4px 4px rgb(58, 58, 58);
-}
-.DangerMessage{
-    text-align: center;
-    margin: 40px 0px 40px 0px;
-    padding: 20px 0px;
-    border-radius: 7px;
-    background-color: rgb(167, 201, 167);
 }
